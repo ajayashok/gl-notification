@@ -1,5 +1,6 @@
 {
     "name": "gl-package/notification-manager",
+    "description": "A notification manager package for Laravel.",
     "type": "library",
     "license": "MIT",
     "autoload": {

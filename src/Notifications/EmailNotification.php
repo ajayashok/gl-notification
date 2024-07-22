@@ -2,7 +2,10 @@
 
 namespace GlPackage\NotificationManager\Notifications;
 
+<<<<<<< HEAD
+=======
 use GlPackage\NotificationManager\Config\ConfigManager;
+>>>>>>> b899d1fa71eaf8d99b405b3374cde8545a21f1b3
 use Illuminate\Support\Facades\Mail;
 
 class EmailNotification

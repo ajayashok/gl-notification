@@ -4,7 +4,7 @@ namespace GlPackage\NotificationManager\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ConfigController
+class NotificationManagerController
 {
     public function show()
     {

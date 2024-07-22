@@ -8,7 +8,7 @@ class NotificationManagerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/notificationmanager.php', 'notificationmanager'
+            __DIR__.'/../Config/NotificationManager.php', 'notificationmanager'
         );
     }
 

@@ -7,9 +7,9 @@ class NotificationManagerServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/NotificationManager.php', 'notificationmanager'
-        );
+        // $this->mergeConfigFrom(
+        //     __DIR__.'/../Config/NotificationManager.php', 'notificationmanager'
+        // );
     }
 
     public function boot()
@@ -27,7 +27,7 @@ class NotificationManagerServiceProvider extends ServiceProvider
 
         // Publish config
         $this->publishes([
-            __DIR__.'/../Config/notificationmanager.php' => config_path('notificationmanager.php'),
+            __DIR__.'/../Config/NotificationManager.php' => config_path('notificationmanager.php'),
         ], 'notificationmanager-config');
 
         // Publish controllers

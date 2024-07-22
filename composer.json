@@ -1,0 +1,27 @@
+{
+    "name": "gl-package/notification-manager",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "GlPackage\\NotificationManager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ajaygetlead",
+            "email": "ajay@getlead.co.uk"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.4",
+        "illuminate/support": "^8.0|^9.0|^10.0",
+        "guzzlehttp/guzzle": "^7.5.4"
+    },
+    "extra": {
+        "laravel": {
+          "providers": [
+            "GlPackage\\NotificationManager\\NotificationManagerServiceProvider"
+          ]
+        }
+      }
+}

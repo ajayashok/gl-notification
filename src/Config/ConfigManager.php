@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< HEAD
 namespace YourVendor\NotificationManager\Config;
+=======
+namespace GlPackage\NotificationManager\Config;
+>>>>>>> b899d1fa71eaf8d99b405b3374cde8545a21f1b3
 
 class ConfigManager
 {

@@ -8,7 +8,7 @@ class NotificationManagerController
 {
     public function show()
     {
-        return view('notification-manager::config');
+        return view('notificationmanager::config');
     }
 
     public function update(Request $request)

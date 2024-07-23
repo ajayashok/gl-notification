@@ -15,10 +15,10 @@ class NotificationManagerServiceProvider extends ServiceProvider
     public function boot()
     {       
         // Load the routes
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         
         // Load the views
-        $this->loadViewsFrom(__DIR__ . '/views', 'notificationmanager');
+        $this->loadViewsFrom(__DIR__ . '/../views', 'notificationmanager');
         
         // Publish views
         $this->publishes([

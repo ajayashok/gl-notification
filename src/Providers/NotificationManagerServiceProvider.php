@@ -13,16 +13,16 @@ class NotificationManagerServiceProvider extends ServiceProvider
     }
 
     public function boot()
-    {       
+    {
         // Load the routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        
+
         // Load the views
         $this->loadViewsFrom(__DIR__ . '/../views', 'notificationmanager');
-        
+
         // Publish views
         $this->publishes([
-            __DIR__.'/../views' => resource_path('views/notificationmanager'),
+            __DIR__.'/../views' => resource_path('views/notification-manager'),
         ], 'notificationmanager-views');
 
         // Publish config
@@ -32,9 +32,9 @@ class NotificationManagerServiceProvider extends ServiceProvider
 
         // Publish controllers
         $this->publishes([
-            __DIR__.'/../Controllers' => app_path('Http/Controllers/NotificationManager'),
+            __DIR__.'/../Http/Controllers' => app_path('Http/Controllers/NotificationManager'),
         ], 'notificationmanager-controllers');
-        
+
         // Publish routes
         $this->publishes([
             __DIR__.'/../routes/web.php' => base_path('routes/notificationmanager.php'),

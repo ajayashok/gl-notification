@@ -10,10 +10,14 @@ class NotificationManagerServiceProvider extends ServiceProvider
         // $this->mergeConfigFrom(
         //     __DIR__.'/../Config/NotificationManager.php', 'notificationmanager'
         // );
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
     }
 
     public function boot()
     {
+        // Load migrations from the package
+        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+
         // Load the routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
@@ -39,5 +43,10 @@ class NotificationManagerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../routes/web.php' => base_path('routes/notificationmanager.php'),
         ], 'notificationmanager-routes');
+
+        // Optionally, you can publish the migrations to the application's migration directory
+        $this->publishes([
+            __DIR__.'/../../database/migrations' => database_path('migrations'),
+        ], 'notificationmanager-migrations');
     }
 }

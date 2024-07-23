@@ -1,3 +1,4 @@
+<!-- resources/views/vendor/notificationmanager/config.blade.php -->
 @extends('notificationmanager::layouts.app')
 
 @section('content')
@@ -7,58 +8,124 @@
     <form action="{{ route('notification-manager.config.update') }}" method="POST">
         @csrf
 
-        <h2>Email Configuration</h2>
-        <div class="form-group">
-            <label for="email_enabled">Enable Email</label>
-            <input type="checkbox" name="email_enabled" id="email_enabled" {{ config('notification-manager.email.enabled') ? 'checked' : '' }}>
-        </div>
-        <div class="form-group">
-            <label for="email_smtp_server">SMTP Server</label>
-            <input type="text" name="email_smtp_server" id="email_smtp_server" value="{{ config('notification-manager.email.smtp_server') }}">
-        </div>
-        <div class="form-group">
-            <label for="email_username">Username</label>
-            <input type="text" name="email_username" id="email_username" value="{{ config('notification-manager.email.username') }}">
-        </div>
-        <div class="form-group">
-            <label for="email_password">Password</label>
-            <input type="password" name="email_password" id="email_password" value="{{ config('notification-manager.email.password') }}">
-        </div>
-
-        <h2>WhatsApp Configuration</h2>
-        <div class="form-group">
-            <label for="whatsapp_enabled">Enable WhatsApp</label>
-            <input type="checkbox" name="whatsapp_enabled" id="whatsapp_enabled" {{ config('notification-manager.whatsapp.enabled') ? 'checked' : '' }}>
-        </div>
-        <div class="form-group">
-            <label for="whatsapp_token">Token</label>
-            <input type="text" name="whatsapp_token" id="whatsapp_token" value="{{ config('notification-manager.whatsapp.token') }}">
-        </div>
-        <div class="form-group">
-            <label for="whatsapp_templates">Templates</label>
-            <textarea name="whatsapp_templates" id="whatsapp_templates">{{ json_encode(config('notification-manager.whatsapp.templates')) }}</textarea>
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Email Configuration</h2>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="email_enabled" name="email_enabled" 
+                           {{ $object->getConfiguration('email')?->enabled ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="email_enabled">Enable Email</label>
+                </div>
+            </div>
+            <div class="card-body" id="email_config" style="display: none;">
+                <table class="table table-bordered">
+                    <tr>
+                        <td><label for="email_smtp_server">SMTP Server</label></td>
+                        <td><input type="text" class="form-control" name="email_smtp_server" id="email_smtp_server" value="{{ $object->getConfiguration('email')?->smtp_server }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email_username">Username</label></td>
+                        <td><input type="text" class="form-control" name="email_username" id="email_username" value="{{ $object->getConfiguration('email')?->username }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email_password">Password</label></td>
+                        <td><input type="password" class="form-control" name="email_password" id="email_password" value="{{ $object->getConfiguration('email')?->password }}"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
-        <h2>Telegram Configuration</h2>
-        <div class="form-group">
-            <label for="telegram_enabled">Enable Telegram</label>
-            <input type="checkbox" name="telegram_enabled" id="telegram_enabled" {{ config('notification-manager.telegram.enabled') ? 'checked' : '' }}>
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">WhatsApp Configuration</h2>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="whatsapp_enabled" name="whatsapp_enabled" 
+                           {{ $object->getConfiguration('whatsapp')?->enabled ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="whatsapp_enabled">Enable WhatsApp</label>
+                </div>
+            </div>
+            <div class="card-body" id="whatsapp_config" style="display: none;">
+                <table class="table table-bordered">
+                    <tr>
+                        <td><label for="whatsapp_token">Token</label></td>
+                        <td><input type="text" class="form-control" name="whatsapp_token" id="whatsapp_token" value="{{ $object->getConfiguration('whatsapp')?->token }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="waba_version">Waba version</label></td>
+                        <td><input type="text" class="form-control" name="waba_version" id="waba_version" value="{{ $object->getConfiguration('whatsapp')?->waba_version }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="waba_id">Waba Id</label></td>
+                        <td><input type="text" class="form-control" name="waba_id" id="waba_id" value="{{ $object->getConfiguration('whatsapp')?->waba_id }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="whatsapp_templates">Templates</label></td>
+                        <td><textarea class="form-control" name="whatsapp_templates" id="whatsapp_templates">{{ $object->getConfiguration('whatsapp')?->templates }}</textarea></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="telegram_chat_id">Chat ID</label>
-            <input type="text" name="telegram_chat_id" id="telegram_chat_id" value="{{ config('notification-manager.telegram.chat_id') }}">
+
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Telegram Configuration</h2>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="telegram_enabled" name="telegram_enabled" 
+                           {{ $object->getConfiguration('telegram')?->enabled ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="telegram_enabled">Enable Telegram</label>
+                </div>
+            </div>
+            <div class="card-body" id="telegram_config" style="display: none;">
+                <table class="table table-bordered">
+                    <tr>
+                        <td><label for="telegram_chat_id">Chat ID</label></td>
+                        <td><input type="text" class="form-control" name="telegram_chat_id" id="telegram_chat_id" value="{{ $object->getConfiguration('telegram')?->chat_id }}"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <h2>SMS Configuration</h2>
-        <div class="form-group">
-            <label for="sms_enabled">Enable SMS</label>
-            <input type="checkbox" name="sms_enabled" id="sms_enabled" {{ config('notification-manager.sms.enabled') ? 'checked' : '' }}>
-        </div>
-        <div class="form-group">
-            <label for="sms_api_key">API Key</label>
-            <input type="text" name="sms_api_key" id="sms_api_key" value="{{ config('notification-manager.sms.api_key') }}">
+
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">SMS Configuration</h2>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="sms_enabled" name="sms_enabled" 
+                           {{ $object->getConfiguration('sms')?->enabled ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="sms_enabled">Enable SMS</label>
+                </div>
+            </div>
+            <div class="card-body" id="sms_config" style="display: none;">
+                <table class="table table-bordered">
+                    <tr>
+                        <td><label for="sms_api_key">API Key</label></td>
+                        <td><input type="text" class="form-control" name="sms_api_key" id="sms_api_key" value="{{ $object->getConfiguration('sms')?->api_key }}"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <button type="submit" class="btn btn-primary">Save Configuration</button>
     </form>
 </div>
+
+<script>
+    $(document).ready(function() {
+        // Toggle visibility based on checkbox state
+        function toggleVisibility() {
+            $('#email_enabled').is(':checked') ? $('#email_config').show() : $('#email_config').hide();
+            $('#whatsapp_enabled').is(':checked') ? $('#whatsapp_config').show() : $('#whatsapp_config').hide();
+            $('#telegram_enabled').is(':checked') ? $('#telegram_config').show() : $('#telegram_config').hide();
+            $('#sms_enabled').is(':checked') ? $('#sms_config').show() : $('#sms_config').hide();
+        }
+
+        // Initial check
+        toggleVisibility();
+
+        // Toggle visibility on change
+        $('#email_enabled').change(toggleVisibility);
+        $('#whatsapp_enabled').change(toggleVisibility);
+        $('#telegram_enabled').change(toggleVisibility);
+        $('#sms_enabled').change(toggleVisibility);
+    });
+</script>
 @endsection

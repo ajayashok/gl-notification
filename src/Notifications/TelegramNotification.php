@@ -21,7 +21,7 @@ class TelegramNotification
     }
     public function quickSend($telegramData){
         if(!$this->isEnable())
-            return;
+            return 'Telegram Configuration not enabled';
         
         try {
             $this->telegramService->sendMessage($this->getConfiguration,$telegramData);
@@ -40,9 +40,5 @@ class TelegramNotification
         } catch (\Exception $e) {
             Log::info('Telegraram Message send Error : '.$e->getMessage());
         }
-    }
-
-    private function isEnable(){
-        return $this->getConfiguration?->enabled;
     }
 }

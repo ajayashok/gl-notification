@@ -9,6 +9,7 @@ use GlPackage\NotificationManager\Traits\ConfigurationTrait;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
+use GlPackage\NotificationManager\Notifications\WhatsAppNotification;
 
 class NotificationManagerController
 {    
@@ -47,8 +48,6 @@ class NotificationManagerController
             'whatsapp' => [
                 'enabled' => $this->convertCheckbox($data['whatsapp_enabled'] ?? 'off'),
                 'token' => $data['whatsapp_token'] ?? '',
-                'templates' => json_decode($data['whatsapp_templates'], true),
-                'waba_version' => $data['waba_version'] ?? '',
                 'waba_id' => $data['waba_id'] ?? ''
             ],
             'telegram' => [
@@ -129,22 +128,40 @@ class NotificationManagerController
                 $data['attachments'] = []; // Optional attachments array , using media urls
                 $data['name'] = 'Hello, Ajay'; // Optional parameters
                 $sendMail  = new EmailNotification();
-                $sendMail->sendMail($data); // This is for mail via queue, try to call php artisan queue:work or install supervisor
+                $sendMail->send($data); // This is for mail via queue, try to call php artisan queue:work or install supervisor
 
                 return response()->json('Email message send successfull');
                 break;
 
             case 'whatsapp':
-                $data['to_address'] = Faker::create()->email;
-                $data['subject'] = 'Welcome to Our Service';
-                $data['body'] = 'Thank you for signing up! Here are some details about your account.';
-                $data['view'] = 'notificationmanager::testmail'; // Optional view view page location , pass body part only, pass []
-                $data['attachments'] = []; // Optional attachments array , using media urls
-                $data['name'] = 'Hello, Ajay'; // Optional parameters
-                $sendMail  = new EmailNotification();
-                $sendMail->sendMail($data); // This is for mail via queue, try to call php artisan queue:work or install supervisor
+                $data['mobile'] = '919744713322';
+                $data['template'] = 'reminder4';
+                $data['parameters'] = [
+                                    [
+                                        "type" => "text",
+                                        "text" => "AJAY"
+                                    ],
+                                    [
+                                        "type" => "text",
+                                        "text" => "1200"
+                                    ],
+                                    [
+                                        "type" => "date_time",
+                                        "date_time" => [
+                                            "fallback_value" => "2023-07-25"
+                                        ]
+                                    ]
+                                ];
+                    $data['buttons'] = [
+                                    [
+                                        "type" => "text",
+                                        "text" => "16"
+                                    ]
+                                ];
+                $sendWhatsapp  = new WhatsAppNotification();
+                $sendWhatsapp->send($data); // This is for whatsApp message via queue, try to call php artisan queue:work or install supervisor
 
-                return response()->json('Email message send successfull');
+                return response()->json('Whatsapp message send successfull');
 
                 break;
             

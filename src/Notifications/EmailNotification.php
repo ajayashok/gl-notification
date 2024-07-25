@@ -19,10 +19,10 @@ class EmailNotification
         $this->emailService = resolve(EmailService::class);
         $this->getConfiguration = $this->getConfiguration('email');
     }
-    public function sendMail($data)
+    public function send($data)
     {
         if(!$this->isEnable())
-            return false;
+            return 'Email Configuration not enabled';
         
         try {
             try {
@@ -35,9 +35,5 @@ class EmailNotification
         } catch (\Exception $e) {
             Log::info('Email Message send Error : '.$e->getMessage());
         }
-    }
-
-    private function isEnable(){
-        return $this->getConfiguration?->enabled;
     }
 }

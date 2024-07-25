@@ -36,7 +36,11 @@ class TelegramService
                 ]);
             }
 
-            $response = Http::post($url, $data);
+            try {
+                $response = Http::post($url, $data);
+            } catch (\Throwable $th) {
+                throw new \Exception('Failed to send Telegram message.');
+            }
 
             if ($response->successful()) {
                 return true;
@@ -46,10 +50,6 @@ class TelegramService
         } else {
             throw new \Exception('Telegram configuration not found for vendor.');
         }
-    }
-
-    public function getEngine(){
-        return $this->engine;
     }
 
 }

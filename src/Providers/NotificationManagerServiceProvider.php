@@ -13,6 +13,19 @@ class NotificationManagerServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
     }
 
+    /**
+     * Publish vendor
+     * 2. Publish the configuration file: (no need optional)
+     * ```sh
+     * php artisan vendor:publish --provider="GlPackage\NotificationManager\Providers\NotificationManagerServiceProvider" --tag=notificationmanager-views
+     * php artisan vendor:publish --provider="GlPackage\NotificationManager\Providers\NotificationManagerServiceProvider" --tag=notificationmanager-config
+     * php artisan vendor:publish --provider="GlPackage\NotificationManager\Providers\NotificationManagerServiceProvider" --tag=notificationmanager-controllers
+     * php artisan vendor:publish --provider="GlPackage\NotificationManager\Providers\NotificationManagerServiceProvider" --tag=notificationmanager-routes
+     * php artisan vendor:publish --provider="GlPackage\NotificationManager\Providers\NotificationManagerServiceProvider" --tag=notificationmanager-migrations
+     * ```
+     *
+     * @return void
+     */
     public function boot()
     {
         // Load migrations from the package

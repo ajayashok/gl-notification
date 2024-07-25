@@ -63,16 +63,8 @@
                         <td><input type="text" class="form-control" name="whatsapp_token" id="whatsapp_token" value="{{ $object->getConfiguration('whatsapp')?->token }}"></td>
                     </tr>
                     <tr>
-                        <td><label for="waba_version">Waba version</label></td>
-                        <td><input type="text" class="form-control" name="waba_version" id="waba_version" value="{{ $object->getConfiguration('whatsapp')?->waba_version }}"></td>
-                    </tr>
-                    <tr>
                         <td><label for="waba_id">Waba Id</label></td>
                         <td><input type="text" class="form-control" name="waba_id" id="waba_id" value="{{ $object->getConfiguration('whatsapp')?->waba_id }}"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="whatsapp_templates">Templates</label></td>
-                        <td><textarea class="form-control" name="whatsapp_templates" id="whatsapp_templates">{{ $object->getConfiguration('whatsapp')?->templates }}</textarea></td>
                     </tr>
                 </table>
             </div>

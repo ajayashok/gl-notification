@@ -20,4 +20,8 @@ trait ConfigurationTrait
 
         return $data;
     }
+
+    private function isEnable(){
+        return $this->getConfiguration?->enabled;
+    }
 }

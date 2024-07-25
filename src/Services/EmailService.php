@@ -66,10 +66,6 @@ class EmailService
        }
     }
 
-    public function getEngine(){
-        return $this->engine;
-    }
-
     public function setMailConfig($mailSettings)
     {
         config([

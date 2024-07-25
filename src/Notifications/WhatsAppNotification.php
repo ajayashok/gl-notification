@@ -2,28 +2,36 @@
 
 namespace GlPackage\NotificationManager\Notifications;
 
-use GlPackage\NotificationManager\Config\ConfigManager;
-use GuzzleHttp\Client;
+use GlPackage\NotificationManager\Jobs\SendMessageJob;
+use GlPackage\NotificationManager\Traits\ConfigurationTrait;
+use GlPackage\NotificationManager\Services\WhatsappService;
+use Illuminate\Support\Facades\Log;
 
 class WhatsAppNotification
 {
-    protected $enabled;
-    protected $token;
-    protected $client;
+    protected $whatsappService;
+    protected $getConfiguration;
 
-    public function __construct(Client $client)
+    use ConfigurationTrait;
+
+    public function __construct()
     {
-        $this->enabled = ConfigManager::isEnabled('whatsapp');
-        $this->token = ConfigManager::get('whatsapp', 'token');
-        $this->client = $client;
+        $this->whatsappService = resolve(WhatsappService::class);
+        $this->getConfiguration = $this->getConfiguration('whatsapp');
     }
 
-    public function send($message)
+    public function send($data)
     {
-        if (!$this->enabled) {
-            return;
-        }
+        if(!$this->isEnable())
+            return 'Whatsapp Configuration not enabled';
 
-        // Logic to send WhatsApp notification using Guzzle or any HTTP client
+        try {
+            // $this->whatsappService->sendMessage($this->getConfiguration,$data);
+                        // or
+            // Dispatch the Whatsapp message job
+            SendMessageJob::dispatch($this->whatsappService,$this->getConfiguration,$data);
+        } catch (\Exception $e) {
+            Log::info('Telegraram Message send Error : '.$e->getMessage());
+        }
     }
 }

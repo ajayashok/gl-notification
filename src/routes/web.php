@@ -8,5 +8,7 @@ Route::group(['namespace' => 'GlPackage\NotificationManager\Http\Controllers', '
     {
         Route::get('config','show')->name('notification-manager.config.show');
         Route::post('config','update')->name('notification-manager.config.update');
+
+        Route::get('send-message/{engine}','sendMessage')->name('notification-manager.send-message');
     });
 });

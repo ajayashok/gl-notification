@@ -12,16 +12,7 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Notification Manager</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('notification-manager.config.show') }}">Home</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+
 
     <div class="container mt-5">
         @yield('content')

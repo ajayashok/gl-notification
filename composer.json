@@ -15,12 +15,6 @@
             "role": "Sr Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./packages/NotificationManager"
-        }
-    ],
     "require": {
         "php": "^8.0 || >=8.0",
         "guzzlehttp/guzzle": "^7.5.4"

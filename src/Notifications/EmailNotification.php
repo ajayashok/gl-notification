@@ -2,33 +2,42 @@
 
 namespace GlPackage\NotificationManager\Notifications;
 
-<<<<<<< HEAD
-=======
-use GlPackage\NotificationManager\Config\ConfigManager;
->>>>>>> b899d1fa71eaf8d99b405b3374cde8545a21f1b3
-use Illuminate\Support\Facades\Mail;
+use GlPackage\NotificationManager\Jobs\SendMessageJob;
+use GlPackage\NotificationManager\Services\EmailService;
+use GlPackage\NotificationManager\Traits\ConfigurationTrait;
+use Illuminate\Support\Facades\Log;
 
 class EmailNotification
 {
-    protected $enabled;
-    protected $smtpServer;
-    protected $username;
-    protected $password;
+    protected $emailService;
+    protected $getConfiguration;
+
+    use ConfigurationTrait;
 
     public function __construct()
     {
-        $this->enabled = ConfigManager::isEnabled('email');
-        $this->smtpServer = ConfigManager::get('email', 'smtp_server');
-        $this->username = ConfigManager::get('email', 'username');
-        $this->password = ConfigManager::get('email', 'password');
+        $this->emailService = resolve(EmailService::class);
+        $this->getConfiguration = $this->getConfiguration('email');
+    }
+    public function sendMail($data)
+    {
+        if(!$this->isEnable())
+            return false;
+        
+        try {
+            try {
+                // Dispatch the Telegram message job
+                SendMessageJob::dispatch($this->emailService,$this->getConfiguration,$data);
+            } catch (\Exception $e) {
+                Log::info($e->getMessage());
+            }
+
+        } catch (\Exception $e) {
+            Log::info('Email Message send Error : '.$e->getMessage());
+        }
     }
 
-    public function send($message, $to)
-    {
-        if (!$this->enabled) {
-            return;
-        }
-
-        // Logic to send Email using Laravel's Mail facade
+    private function isEnable(){
+        return $this->getConfiguration?->enabled;
     }
 }

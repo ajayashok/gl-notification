@@ -20,16 +20,28 @@
             <div class="card-body" id="email_config" style="display: none;">
                 <table class="table table-bordered">
                     <tr>
-                        <td><label for="email_smtp_server">SMTP Server</label></td>
-                        <td><input type="text" class="form-control" name="email_smtp_server" id="email_smtp_server" value="{{ $object->getConfiguration('email')?->smtp_server }}"></td>
+                        <td><label for="email_smtp_driver">Driver</label></td>
+                        <td><input type="text" class="form-control" name="email_smtp_driver" id="email_smtp_driver" placeholder="smtp" value="{{ $object->getConfiguration('email')?->smtp_driver }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email_smtp_host">Host</label></td>
+                        <td><input type="text" class="form-control" name="email_smtp_host" id="email_smtp_host" placeholder="smtp.gmail.com" value="{{ $object->getConfiguration('email')?->smtp_host }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email_smtp_port">Port</label></td>
+                        <td><input type="text" class="form-control" name="email_smtp_port" id="email_smtp_port" placeholder="587" value="{{ $object->getConfiguration('email')?->smtp_port }}"></td>
                     </tr>
                     <tr>
                         <td><label for="email_username">Username</label></td>
-                        <td><input type="text" class="form-control" name="email_username" id="email_username" value="{{ $object->getConfiguration('email')?->username }}"></td>
+                        <td><input type="text" class="form-control" name="email_username" id="email_username" placeholder="*********" value="{{ $object->getConfiguration('email')?->username }}"></td>
                     </tr>
                     <tr>
                         <td><label for="email_password">Password</label></td>
-                        <td><input type="password" class="form-control" name="email_password" id="email_password" value="{{ $object->getConfiguration('email')?->password }}"></td>
+                        <td><input type="password" class="form-control" name="email_password" id="email_password" placeholder="*********" value="{{ $object->getConfiguration('email')?->password }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email_encryption">Encryption</label></td>
+                        <td><input type="text" class="form-control" name="email_encryption" id="email_encryption" placeholder="TLS" value="{{ $object->getConfiguration('email')?->encryption }}"></td>
                     </tr>
                 </table>
             </div>
@@ -78,7 +90,11 @@
             <div class="card-body" id="telegram_config" style="display: none;">
                 <table class="table table-bordered">
                     <tr>
-                        <td><label for="telegram_chat_id">Chat ID</label></td>
+                        <td><label for="telegram_token">Telegram Token</label></td>
+                        <td><input type="text" class="form-control" name="telegram_token" id="telegram_token" value="{{ $object->getConfiguration('telegram')?->token }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="telegram_chat_id">Telegram Chat ID</label></td>
                         <td><input type="text" class="form-control" name="telegram_chat_id" id="telegram_chat_id" value="{{ $object->getConfiguration('telegram')?->chat_id }}"></td>
                     </tr>
                 </table>

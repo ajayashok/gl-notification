@@ -26,10 +26,10 @@ class WhatsAppNotification
             return 'Whatsapp Configuration not enabled';
 
         try {
-            // $this->whatsappService->sendMessage($this->getConfiguration,$data);
+            $this->whatsappService->sendMessage($this->getConfiguration,$data);
                         // or
             // Dispatch the Whatsapp message job
-            SendMessageJob::dispatch($this->whatsappService,$this->getConfiguration,$data);
+            // SendMessageJob::dispatch($this->whatsappService,$this->getConfiguration,$data);
         } catch (\Exception $e) {
             Log::info('Telegraram Message send Error : '.$e->getMessage());
         }

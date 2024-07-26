@@ -1,84 +1,122 @@
 # Notification Manager
 
-A Laravel package for managing notifications via Telegram, WhatsApp, SMS, and Email.
+A Laravel package for managing notifications through Telegram, WhatsApp, Email and SMS.
 
 ## Installation
 
-1. Install the package via Composer:
+To install the package, follow these steps:
+
+1. **Install via Composer:**
     ```sh
     composer require gl-package/notification-manager
     ```
-2. Configure your notification settings in the `/notification-manager/config` url.
 
-3. Publish the configuration file: (No need, If you want to customise configuration page you can publish)
+2. **Run the migrations:**
+    ```sh
+    php artisan migrate
+    ```
+
+3. **Configure your notification settings** in the `/notification-manager/config` URL.
+
+4. **Publish the configuration files** (optional, only if you need to customize the configuration page):
     ```sh
     php artisan vendor:publish --provider="GlPackage\NotificationManager\Providers\NotificationManagerServiceProvider" --tag=notificationmanager-views
     php artisan vendor:publish --provider="GlPackage\NotificationManager\Providers\NotificationManagerServiceProvider" --tag=notificationmanager-controllers
     php artisan vendor:publish --provider="GlPackage\NotificationManager\Providers\NotificationManagerServiceProvider" --tag=notificationmanager-routes
     ```
-4. Run the migrations:
+
+5. **Configure the queue** (For Laravel versions prior to 11.0):
     ```sh
+    php artisan queue:table
     php artisan migrate
+    php artisan queue:work
     ```
-5. Test the url `/notification-manager/send-message/{engine}`.            NB: `engines : mail, telegram, whatsapp. sms`
+
+6. **Test the URL**: `/notification-manager/send-message/{engine}`
+    - Supported Engines: `email`, `telegram`, `whatsapp`, `sms`
 
 ## Usage
 
-You can now use the notification classes in your Laravel application.
+You can use the notification classes in your Laravel application as follows:
+
+### Telegram Notification
 
 ```php
 use GlPackage\NotificationManager\Notifications\TelegramNotification;
-use GlPackage\NotificationManager\Notifications\WhatsAppNotification;
-use GlPackage\NotificationManager\Notifications\SMSNotification;
 
-
-/* ----------- Telegram message --------- */
-$data['message'] = "<b>Hello World!</b> Click the button below:";
-$data['buttons'] = [
-    [
-        ['text' => 'Click Me', 'url' => 'https://example.com'] // Optional ,if you dont want to include button you can pass $data['buttons'] =  [] array.
+$data = [
+    'message' => "<b>Hello World!</b> Click the button below:",
+    'buttons' => [
+        [
+            ['text' => 'Click Me', 'url' => 'https://example.com'] // Optional
+        ]
     ]
 ];
-$sendtelegram  = new TelegramNotification();
-$sendtelegram->quickSend($data); // THis is for quick send
-// $sendtelegram->queueSend($data); // This is for queued send
 
-/* ----------Email message--------- */
-$data['to_address'] = Faker::create()->email;
-$data['subject'] = 'Welcome to Our Service';
-$data['body'] = 'Thank you for signing up! Here are some details about your account.';
-$data['view'] = 'notificationmanager::testmail'; // Optional view view page location , pass body part only, pass []
-$data['attachments'] = []; // Optional attachments array , using media urls
-$data['name'] = 'Hello, Ajay'; // Optional parameters
-$sendMail  = new EmailNotification();
-$sendMail->send($data); // This is for mail via queue, try to call php artisan queue:work or install supervisor
+$telegram = new TelegramNotification();
+$telegram->quickSend($data); // For quick send
+// or
+$telegram->queueSend($data); // For queued send
 
-/* ----------Whatsapp message */
-$data['mobile'] = '91908*******';
-$data['template'] = 'hello_world'; // sample
+```
 
-`parameters and buttons` are optional . You can pass [] array to these field.
+### Email Notification
 
-$data['parameters'] = [
-                    [
-                        "type" => "text",
-                        "text" => "Test"
-                    ],
-                    [
-                        "type" => "text",
-                        "text" => "1200"
-                    ]
-                ];
-$data['buttons'] = [
-                [
-                    "type" => "text",
-                    "text" => "16"
-                ]
-            ];
+```php
+use GlPackage\NotificationManager\Notifications\EmailNotification;
+use Faker\Factory as Faker;
 
-$sendWhatsapp  = new WhatsAppNotification();
-$sendWhatsapp->send($data); // This is for whatsApp message via queue, try to call php artisan queue:work or install supervisor
+$data = [
+    'to_address' => Faker::create()->email,
+    'subject' => 'Welcome to Our Service',
+    'body' => 'Thank you for signing up! Here are some details about your account.',
+    'view' => 'notificationmanager::testmail', // Optional view page location
+    'attachments' => [], // Optional attachments array
+    'name' => 'Hello, Ajay' // Optional parameters
+];
 
-$sms = new SMSNotification(new \GuzzleHttp\Client());
+$mail = new EmailNotification();
+$mail->send($data); // Send mail via queue
+// Ensure to run: php artisan queue:work or use Supervisor
+```
+
+### Whatsapp Notification
+
+```php
+use GlPackage\NotificationManager\Notifications\WhatsAppNotification;
+
+$data = [
+    'mobile' => '91908*******',
+    'template' => 'hello_world', // Sample template
+    'parameters' => [ // Optional
+        [
+            "type" => "text",
+            "text" => "Test"
+        ],
+        [
+            "type" => "text",
+            "text" => "1200"
+        ]
+    ],
+    'buttons' => [ // Optional
+        [
+            "type" => "text",
+            "text" => "16"
+        ]
+    ]
+];
+
+$whatsapp = new WhatsAppNotification();
+$whatsapp->send($data); // Send WhatsApp message via queue
+// Ensure to run: php artisan queue:work or use Supervisor
+```
+
+### SMS Notification
+
+```php
+use GlPackage\NotificationManager\Notifications\SMSNotification;
+use GuzzleHttp\Client;
+
+$sms = new SMSNotification(new Client());
 $sms->send('Hello SMS', '1234567890');
-
+```

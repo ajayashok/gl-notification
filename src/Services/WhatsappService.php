@@ -17,7 +17,7 @@ class WhatsappService
         $this->vendorId = auth()?->user()?->id;
         $this->apiUrl = 'https://graph.facebook.com/';
         $this->engine = 'whatsapp';
-        $this->version = 'v19.0';
+        $this->version = 'v20.0';
     }
 
     public function sendMessage($whatsappConfig,$whatsappData)
